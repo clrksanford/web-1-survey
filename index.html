@@ -1,28 +1,84 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>Survey</title>
+    <meta charset="utf-8"/>
+    <title>Clark Sanford's Web 1 Wonderland - Survey Page</title>
+    <link rel="stylesheet" href="style.css"/>
   </head>
   <body>
-    <h1>Tell me about yourself!</h1>
+    <h1>Clark Sanford's Web 1 Wonderland</h1>
+    <div role="navigation">
+      <!-- <ul> TODO uncomment DMG links after uploading officially
+        <li>
+          <a href="https://dpdev1.dp.utexas.edu/test/dpch9m/web-1-challenge" data="homepage" class="nav">Back Home</a>
+        </li>
+      </ul> -->
+      <ul>
+        <li>
+          <a href="http://127.0.0.1:3000" data="homepage" class="nav">Back Home</a>
+        </li>
+      </ul>
+    </div>
+    <h2>Tell us about yourself!</h2>
     <form id="survey-form">
-      <label for="first-name">First Name</label>
-        <input type="text" name="first-name" value="">
-      <label for="last-name">Last Name</label>
-        <input type="text" name="last-name" value="">
-      <label for="hometown">Hometown</label>
-        <input type="text" name="hometown" value="">
-      <label for="start-date">Start Date</label>
-        <input type="text" name="start-date" value="">
-      <label for="college-major">College Major</label>
-        <input type="text" name="college-major" value="">
-      <label for="favorite-trip">Favorite Trip</label>
-        <input type="text" name="favorite-trip" value="">
+      <div class="form-row">
+        <label for="first-name">First Name</label>
+          <input type="text" name="first-name" id="first-name" value="">
+      </div>
+      <div class="form-row">
+        <label for="last-name">Last Name</label>
+          <input type="text" name="last-name" id="last-name" value="">
+      </div>
+      <div class="form-row">
+        <label for="hometown">Hometown</label>
+          <input type="text" name="hometown" id="hometown" value="">
+      </div>
+      <div class="form-row">
+        <label for="start-date">Start Date</label>
+          <input type="text" name="start-date" id="start-date" value="">
+      </div>
+      <div class="form-row">
+        <label for="college-major">College Major</label>
+          <input type="text" name="college-major" id="college-major" value="">
+      </div>
+      <div class="form-row">
+        <label for="favorite-trip">Favorite Trip</label>
+          <input type="text" name="favorite-trip" id="favorite-trip" value="">
+      </div>
       <input type="submit" name="submit" value="Save">
     </form>
+    <h2>Meet your coworkers!</h2>
+    <div id="response-display">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col" data="first-name">First Name</th>
+            <th scope="col" data="last-name">Last Name</th>
+            <th scope="col" data="hometown">Hometown</th>
+            <th scope="col" data="start-date">Training Start Date</th>
+            <th scope="col" data="college-major">College Major</th>
+            <th scope="col" data="favorite-trip">Favorite Trip</th>
+          </tr>
+        </thead>
+        <tbody id="survey-answers">
+          <!-- DB info will go here -->
+        </tbody>
+      </table>
+    </div>
   </body>
   <script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyC17fdCK6p51zkJyjTJeOWrSCGj5_TKzIY",
+      authDomain: "web-1-survey.firebaseapp.com",
+      databaseURL: "https://web-1-survey.firebaseio.com",
+      storageBucket: "web-1-survey.appspot.com",
+      messagingSenderId: "847577523701"
+    };
+
+    firebase.initializeApp(config);
+  </script>
   <script
     src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="

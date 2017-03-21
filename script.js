@@ -1,29 +1,106 @@
-// Set the configuration for your app
-// Initialize Firebase
-var config = {
-  apiKey: "AIzaSyC17fdCK6p51zkJyjTJeOWrSCGj5_TKzIY",
-  authDomain: "web-1-survey.firebaseapp.com",
-  databaseURL: "https://web-1-survey.firebaseio.com",
-  storageBucket: "web-1-survey.appspot.com",
-  messagingSenderId: "847577523701"
-};
-firebase.initializeApp(config);
+$(document).ready(function () {
+  loadResponses();
 
-// Get a reference to the database service
-var database = firebase.database();
+  // $("a.nav").on("click", function (e) {
+  //   e.preventDefault();
+  //
+  //   var clicked = e.currentTarget;
+  //   var requestedPage = $(clicked).attr("data");
+  //
+  //   showPage(requestedPage);
+  // })
 
-$("#survey-form").on('submit', function (e) {
-  e.preventDefault();
+  $("#survey-form").on('submit', function (e) {
+    e.preventDefault();
 
-  var responses = buildResponses();
+    var responses = buildResponses();
 
-  saveResponses(responses);
+    saveResponses(responses);
+  });
 })
 
+function showPage(pageName) {
+  var pageArray = $(".page");
+
+  for(var i=0; i<pageArray.length; i++) {
+    var currentPage = pageArray[i];
+    var currentPageId = $(currentPage).attr("id");
+
+    if(currentPageId !== pageName) {
+      $(currentPage).addClass("hidden");
+    } else {
+      $(currentPage).removeClass("hidden");
+    }
+  }
+  // pageArray.forEach(function (page) {
+  //   if(page.attr("id") !== pageName) {
+  //     page.addClass("hidden");
+  //   } else {
+  //     page.removeClass("hidden");
+  //   }
+  // })
+}
+
+function loadResponses() {
+  firebase.database().ref().on('value', function (snapshot) {
+    clearTable();
+
+    var dbItems = snapshot.val();
+    var tableOrder = buildTable();
+
+    for (var key in dbItems) {
+      var responses = dbItems[key].responses;
+
+      var newRow = $("<tr />");
+      // var div = $('<div />').addClass("bio");
+      for (var i=0; i<tableOrder.length; i++) {
+        var currentColHeader = tableOrder[i];
+        var currentCellVal = responses[currentColHeader];
+
+        var newCell = $("<td />").text(currentCellVal);
+        newRow.append(newCell);
+      }
+
+      $("tbody").append(newRow);
+
+//       for (var field in responses) {
+//         // displayField = field.replace(/-/g, " ");
+//         // displayField = displayField[0].toUpperCase() + displayField.substring(1);
+//
+//
+//         // var p = $('<p />').text(displayField + ': ' + responses[field]);
+// //
+//         div.append(p)
+//       }
+//
+//       $("#response-display").append(div);
+    }
+  });
+}
+
+function clearTable() {
+  $("tbody").empty();
+}
+
+function buildTable() {
+  var thArray = $("th");
+  var fieldOrderArray = [];
+
+  for (var i=0; i<thArray.length; i++) {
+    var currentField = $(thArray[i]).attr("data");
+
+    fieldOrderArray.push(currentField);
+  }
+
+  return fieldOrderArray;
+}
+
 function saveResponses(responses) {
-  firebase.database().ref('/').set({
-    responses: responses
-  })
+  var key = firebase.database().ref().push().key;
+
+  firebase.database().ref('/' + key).set({
+    responses
+  });
 }
 
 function buildResponses() {
